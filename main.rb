@@ -4,6 +4,9 @@ require 'mustache'
 require 'yaml'
 
 CONFIG = YAML.load_file 'config.yml'
+BASE_URL = CONFIG['base_url']
+USERNAME = CONFIG['username']
+PASSWORD = CONFIG['password']
 
 a = Mechanize.new
 
