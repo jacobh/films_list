@@ -2,13 +2,43 @@
 <head>
     <title>Films I've Seen</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            holding = [];
+            _.each($('.film'), function(film, i){
+                holding.push(film);
+                if (((i+1) % 3) == 0) {
+                    max = _.reduce(holding, function(current_max, film){
+                        if ($(film).height() > current_max) {
+                            return $(film).height();
+                        }
+                        else {
+                            return current_max;
+                        }
+                    }, 0);
+                    $(holding).height(max);
+                    holding = [];
+                }
+            });
+        });
+    </script>
 </head>
 <body>
     <h1>Films I've Seen</h1>
-    <ul>
+    <ul class="films">
         {{#films}}
-            <li>
-                <h3>{{ title }}</h3>
+            <li class="film">
+                <div class="first-row">
+                    <img src="covers/{{ slug }}_small.jpg">
+                    <h3 class="title"><a href="{{ url }}">{{ title }}</a></h3>
+                </div>
+                <span class="checked-time">Seen {{ checked }}</span>
+                {{#favorite}}
+                    <span class="favorite">♥</span>
+                {{/favorite}}
             </li>
         {{/films}}
     </ul>

@@ -1,2 +1,4 @@
 config.yml
 index.html
+output/
+.sass-cache/
