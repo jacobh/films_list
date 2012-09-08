@@ -1,6 +1,8 @@
+<%
+$stdout = File.open "index.html", "wb"
+
 require 'mechanize'
 require 'csv'
-require 'mustache'
 require 'yaml'
 
 CONFIG = YAML.load_file 'config.yml'
@@ -22,10 +24,20 @@ csv_text = a.get("#{BASE_URL}movies/checked/?export").body
 columns, *rows = CSV.parse csv_text
 films = rows.map { |row| Hash[columns.zip(row)] }
 
-
-# template out the result
-template = File.read 'list.moustache'
-rendered = Mustache.render template, films: films
-
-# and write it to disk
-File.write 'index.html', rendered
+%>
+<html>
+<head>
+    <title>Films I've Seen</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+    <h1>Films I've Seen</h1>
+    <ul>
+        <% films.each do |film| %>
+            <li>
+                <h3><%= film["title"] %></h3>
+            </li>
+        <% end %>
+    </ul>
+</body>
+</html>
