@@ -24,11 +24,8 @@ films = rows.map { |row| Hash[columns.zip(row)] }
 
 
 # template out the result
-template = File.open('list.moustache', 'rb') { |file| file.read }
+template = File.read 'list.moustache'
 rendered = Mustache.render template, films: films
 
 # and write it to disk
-File.open 'index.html', 'w' do |output_file|
-    output_file.write rendered
-    output_file.close
-end
+File.write 'index.html', rendered
